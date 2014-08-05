@@ -17,7 +17,7 @@
             var lineNode = document.createElement('canvas');
 
             lineNode.style.position = 'absolute';
-            lineNode.height = '2';
+            lineNode.height = parseInt(options.styles.height) || '2';
             lineNode.width = lineLength;
             line.canvasLine(lineNode, lineLength, options);
 
@@ -29,13 +29,14 @@
 
             for (var attr in options.attr) {
                 if (attr && attr !== 'color') {
-                    lineNode[attr] = options.attr[attr];
+                    $(lineNode).attr(attr,options.attr[attr]);
                 }
             }
 
-            for (var attr in options.style) {
-                if (attr && attr !== 'color') {
-                    lineNode.style[attr] = options.style[attr];
+            var nullStyles = ['color','width','height'];
+            for (var attr in options.styles) {
+                if (attr && nullStyles.indexOf(attr) === -1) {
+                    lineNode.style[attr] = options.styles[attr];
                 }
             }
             return lineNode;
@@ -46,13 +47,14 @@
             context.moveTo(0, 1);
             context.lineTo(length, 1);
             context.closePath();
-            context.strokeStyle = options.style.color;
+            context.strokeStyle = options.styles.color;
+            context.lineWidth = options.styles.height || '2';
             context.stroke();
         }
     };
 
     $.fn.smoothLine = function (x1, y1, x2, y2, options, callbacks) {
-        return $(this).each(function () {
+        $(this).each(function () {
             if ($.isFunction(options)) {
                 callback = options;
                 options = null;
