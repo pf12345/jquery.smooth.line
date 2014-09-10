@@ -17,7 +17,7 @@
             var lineNode = document.createElement('canvas');
 
             lineNode.style.position = 'absolute';
-            lineNode.height = parseInt(options.styles.height) || '2';
+            lineNode.height = options.style.height || '1';
             lineNode.width = lineLength;
             line.canvasLine(lineNode, lineLength, options);
 
@@ -36,7 +36,7 @@
             var nullStyles = ['color','width','height'];
             for (var attr in options.styles) {
                 if (attr && nullStyles.indexOf(attr) === -1) {
-                    lineNode.style[attr] = options.styles[attr];
+                    lineNode.style[attr] = options.style[attr];
                 }
             }
             return lineNode;
@@ -47,8 +47,8 @@
             context.moveTo(0, 1);
             context.lineTo(length, 1);
             context.closePath();
-            context.strokeStyle = options.styles.color;
-            context.lineWidth = options.styles.height || '2';
+            context.strokeStyle = options.style.color;
+            context.lineWidth = options.style.height || '1';
             context.stroke();
         }
     };
@@ -74,7 +74,8 @@
     $.fn.smoothLine.defaults = {
         style: {
             zIndex: 10000,
-            color: '#000000'
+            color: '#000000',
+	        height: 1
         },
         attr: {
             id: 'jquery-smooth-line',
